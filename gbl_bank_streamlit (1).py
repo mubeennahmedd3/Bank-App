@@ -370,7 +370,7 @@ if st.session_state.view == "menu":
     with st.container(border=True):
         cli_l, cli_m, cli_r = st.columns([3, 1.5, 1])
         with cli_l:
-          
+            st.markdown("`>>> Enter your option (1, 2, 0):`")
         with cli_m:
             cli_choice = st.text_input("CLI", placeholder="1, 2 or 0", max_chars=2, label_visibility="collapsed")
         with cli_r:

@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # ==========================================
-# CLEAN REALISTIC BANKING CSS
+# CLEAN BANKING CSS WITH GRAPHICS & BADGES
 # ==========================================
 st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@ st.markdown("""
         .block-container {
             padding-top: 0rem !important;
             padding-bottom: 2.5rem !important;
-            max-width: 920px !important;
+            max-width: 940px !important;
             font-family: 'Inter', sans-serif;
         }
         body, .stApp {
@@ -48,16 +48,14 @@ st.markdown("""
             gap: 12px;
         }
         .bank-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #10b981, #047857);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
         }
         .bank-title {
             font-size: 18px;
@@ -77,18 +75,25 @@ st.markdown("""
             color: #6ee7b7;
             font-size: 11px;
             font-weight: 600;
-            padding: 5px 12px;
+            padding: 6px 13px;
             border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Welcome Hero */
+        /* Welcome Hero with SVG Graphic */
         .welcome-banner {
             background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-            border-radius: 20px;
-            padding: 32px 34px;
+            border-radius: 22px;
+            padding: 30px 34px;
             color: white;
             margin-bottom: 22px;
             box-shadow: 0 12px 24px -6px rgba(2, 44, 34, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
         .welcome-banner h1 {
             margin: 0 0 8px 0;
@@ -100,18 +105,45 @@ st.markdown("""
             margin: 0;
             font-size: 0.95rem;
             color: #d1fae5;
-            opacity: 0.9;
+            opacity: 0.92;
+            max-width: 560px;
+        }
+        .hero-graphic {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 14px;
         }
 
         /* Action Cards on Home */
         .portal-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 22px;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
             margin-bottom: 10px;
-            min-height: 145px;
+            min-height: 162px;
+        }
+        .card-icon-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        .icon-green {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+        .icon-gold {
+            background: #fffbeb;
+            color: #b45309;
+            border: 1px solid #fde68a;
         }
         .portal-card h3 {
             margin: 0 0 6px 0;
@@ -129,11 +161,15 @@ st.markdown("""
         /* Account Card in Dashboard */
         .account-card {
             background: linear-gradient(135deg, #022c22 0%, #064e3b 60%, #065f46 100%);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 26px 30px;
             color: white;
             box-shadow: 0 14px 28px -6px rgba(2, 44, 34, 0.25);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
         .acc-label {
             font-size: 11px;
@@ -153,23 +189,59 @@ st.markdown("""
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             color: #d1fae5;
-            margin-top: 10px;
+            margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid rgba(255,255,255,0.14);
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+        .chip-visual {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 16px;
+            padding: 14px;
+            flex-shrink: 0;
         }
 
-        /* Statement Rows */
+        /* Statement Rows with Direction Graphics */
         .tx-row {
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 12px 15px;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
+        }
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tx-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .tx-badge-credit {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+        .tx-badge-debit {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
         }
         .tx-title {
             font-size: 13px;
@@ -187,12 +259,14 @@ st.markdown("""
             font-size: 13px;
             font-weight: 700;
             color: #059669;
+            white-space: nowrap;
         }
         .tx-debit {
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
             font-weight: 700;
             color: #dc2626;
+            white-space: nowrap;
         }
 
         div.stButton > button {
@@ -211,6 +285,53 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+
+# ==========================================
+# SVG GRAPHIC SNIPPETS
+# ==========================================
+LOGO_SVG = """
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/>
+</svg>
+"""
+
+SHIELD_SVG = """
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+</svg>
+"""
+
+HERO_CARD_SVG = """
+<svg width="112" height="72" viewBox="0 0 112 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="4" width="108" height="64" rx="10" fill="rgba(16,185,129,0.16)" stroke="#34d399" stroke-width="1.5"/>
+    <rect x="14" y="16" width="24" height="17" rx="3.5" fill="#fbbf24" fill-opacity="0.85"/>
+    <path d="M50 20C54 23 54 27 50 30" stroke="#a7f3d0" stroke-width="2" stroke-linecap="round"/>
+    <path d="M56 17C62 22 62 28 56 33" stroke="#a7f3d0" stroke-width="2" stroke-linecap="round"/>
+    <line x1="14" y1="47" x2="62" y2="47" stroke="#d1fae5" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.7"/>
+    <circle cx="88" cy="47" r="8" fill="#10b981" fill-opacity="0.7"/>
+    <circle cx="79" cy="47" r="8" fill="#fbbf24" fill-opacity="0.75"/>
+</svg>
+"""
+
+USER_PLUS_SVG = """
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/>
+</svg>
+"""
+
+LOGIN_KEY_SVG = """
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+</svg>
+"""
+
+WALLET_CHART_SVG = """
+<svg width="86" height="64" viewBox="0 0 86 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="10" width="74" height="46" rx="10" fill="rgba(255,255,255,0.08)" stroke="#6ee7b7" stroke-width="1.4"/>
+    <polyline points="18,42 33,31 46,37 66,20" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="66" cy="20" r="3.5" fill="#34d399"/>
+</svg>
+"""
 
 # ==========================================
 # SESSION DATABASE
@@ -250,15 +371,15 @@ current_user = accounts.get(st.session_state.active_cnic) if st.session_state.ac
 # TOP HEADER BAR
 # ==========================================
 right_badge = (
-    f'<span class="secure-badge">Signed in: {current_user["name"]}</span>'
+    f'<span class="secure-badge">{SHIELD_SVG} {current_user["name"]}</span>'
     if current_user else
-    '<span class="secure-badge">256-Bit Secured Portal</span>'
+    f'<span class="secure-badge">{SHIELD_SVG} Secured Banking</span>'
 )
 
 st.markdown(f"""
     <div class="bank-topbar">
         <div class="bank-brand">
-            <div class="bank-logo">GBL</div>
+            <div class="bank-logo">{LOGO_SVG}</div>
             <div>
                 <p class="bank-title">Gareeb Bank Limited</p>
                 <p class="bank-sub">Digital Banking Services &bull; Pakistan</p>
@@ -273,18 +394,22 @@ st.markdown(f"""
 # 1. HOME SCREEN
 # ==========================================
 if st.session_state.page == "home":
-    st.markdown("""
+    st.markdown(f"""
         <div class="welcome-banner">
-            <h1>Welcome to Gareeb Bank Limited</h1>
-            <p>Simple, fast, and reliable digital banking. Open an account with your CNIC or sign in to manage your funds.</p>
+            <div>
+                <h1>Welcome to Gareeb Bank Limited</h1>
+                <p>Simple, fast, and reliable digital banking. Open an account with your 13-digit CNIC or sign in to manage your funds.</p>
+            </div>
+            <div class="hero-graphic">{HERO_CARD_SVG}</div>
         </div>
     """, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2, gap="medium")
 
     with col1:
-        st.markdown("""
+        st.markdown(f"""
             <div class="portal-card">
+                <div class="card-icon-wrap icon-green">{USER_PLUS_SVG}</div>
                 <h3>Open a New Account</h3>
                 <p>Register instantly using your 13-digit CNIC number, set a 4-digit security PIN, and make your opening deposit.</p>
             </div>
@@ -293,8 +418,9 @@ if st.session_state.page == "home":
             go_page("register")
 
     with col2:
-        st.markdown("""
+        st.markdown(f"""
             <div class="portal-card">
+                <div class="card-icon-wrap icon-gold">{LOGIN_KEY_SVG}</div>
                 <h3>Customer Sign In</h3>
                 <p>Access your account balance, transfer funds to other GBL members, view statements, or update your PIN.</p>
             </div>
@@ -406,15 +532,18 @@ elif st.session_state.page == "dashboard":
 
     user = accounts[cnic]
 
-    # Account Summary Card
+    # Account Summary Card with Graphic
     st.markdown(f"""
         <div class="account-card">
-            <div class="acc-label">Available Balance</div>
-            <div class="acc-balance">Rs. {user['balance']:,}</div>
-            <div class="acc-meta">
-                <span>Account Title: <strong>{user['name']}</strong></span>
-                <span>CNIC: <strong>{format_cnic(cnic)}</strong></span>
+            <div style="flex-grow:1;">
+                <div class="acc-label">Available Balance</div>
+                <div class="acc-balance">Rs. {user['balance']:,}</div>
+                <div class="acc-meta">
+                    <span>Account Title: <strong>{user['name']}</strong></span>
+                    <span>CNIC: <strong>{format_cnic(cnic)}</strong></span>
+                </div>
             </div>
+            <div class="chip-visual">{WALLET_CHART_SVG}</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -546,11 +675,15 @@ elif st.session_state.page == "dashboard":
                     is_credit = tx["type"] == "credit"
                     sign = "+" if is_credit else "-"
                     amt_cls = "tx-credit" if is_credit else "tx-debit"
+                    badge_cls = "tx-badge-credit" if is_credit else "tx-badge-debit"
                     st.markdown(f"""
                         <div class="tx-row">
-                            <div>
-                                <div class="tx-title">{tx['title']}</div>
-                                <div class="tx-date">{tx['time']}</div>
+                            <div class="tx-left">
+                                <div class="tx-badge {badge_cls}">{sign}</div>
+                                <div>
+                                    <div class="tx-title">{tx['title']}</div>
+                                    <div class="tx-date">{tx['time']}</div>
+                                </div>
                             </div>
                             <div class="{amt_cls}">{sign} Rs. {tx['amount']:,}</div>
                         </div>

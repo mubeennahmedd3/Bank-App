@@ -1,211 +1,204 @@
 import streamlit as st
-import streamlit.components.v1 as components
+from datetime import datetime
 
 # ==========================================
-# PAGE CONFIG (Full-Width Modern Web App)
+# PAGE CONFIGURATION
 # ==========================================
 st.set_page_config(
-    page_title="Gareeb Bank Limited (GBL) - Digital Banking",
+    page_title="Gareeb Bank Limited (GBL) | Online Banking",
     page_icon="🏦",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
 # ==========================================
-# INJECT TAILWIND CSS, GOOGLE FONTS & CUSTOM UI STYLING
+# CLEAN REALISTIC BANKING CSS
 # ==========================================
 st.markdown("""
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Hide default Streamlit chrome for pure custom HTML-like interface */
         #MainMenu, footer, header {visibility: hidden;}
         .block-container {
             padding-top: 0rem !important;
-            padding-bottom: 2rem !important;
-            max-width: 960px !important;
+            padding-bottom: 2.5rem !important;
+            max-width: 920px !important;
             font-family: 'Inter', sans-serif;
         }
         body, .stApp {
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #f4f6f9;
+            color: #0f172a;
             font-family: 'Inter', sans-serif;
         }
 
-        /* Top Dark Emerald Navigation Bar */
-        .gbl-navbar {
-            background-color: #022c22;
-            color: white;
-            padding: 16px 24px;
-            border-radius: 0 0 22px 22px;
-            box-shadow: 0 10px 25px -5px rgba(2, 44, 34, 0.25);
-            border-bottom: 1px solid #065f46;
+        /* Top Banking Header */
+        .bank-topbar {
+            background: #022c22;
+            color: #ffffff;
+            padding: 16px 26px;
+            border-radius: 0 0 18px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
+            box-shadow: 0 6px 20px rgba(2, 44, 34, 0.18);
+            margin-bottom: 26px;
         }
-        .gbl-logo-box {
+        .bank-brand {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .gbl-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+        .bank-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             background: linear-gradient(135deg, #10b981, #047857);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            color: white;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
-        }
-        .gbl-badge-gold {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 2px 8px;
-            border-radius: 999px;
-            background: rgba(245, 158, 11, 0.18);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.35);
-        }
-        .gbl-user-pill {
-            background: rgba(6, 95, 70, 0.85);
-            border: 1px solid #047857;
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #d1fae5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Hero Banner Card */
-        .gbl-hero {
-            background: linear-gradient(135deg, #064e3b 0%, #022c22 55%, #0f172a 100%);
-            padding: 34px 36px;
-            border-radius: 24px;
-            color: white;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 24px;
-        }
-        .gbl-pill-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 12px;
-            font-weight: 600;
-            color: #fbbf24;
-            margin-bottom: 12px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Option Cards */
-        .option-card {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 22px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-            margin-bottom: 10px;
-            min-height: 175px;
-        }
-        .option-card-green { border-top: 5px solid #047857; }
-        .option-card-gold  { border-top: 5px solid #f59e0b; }
-        .option-card-red   { border-top: 5px solid #e11d48; }
-
-        .press-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 999px;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        /* Dashboard Balance Card */
-        .dash-card {
-            background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #065f46 100%);
-            border-radius: 24px;
-            padding: 28px 32px;
-            color: white;
-            box-shadow: 0 20px 25px -5px rgba(2, 44, 34, 0.25);
-            margin-bottom: 22px;
-        }
-        .balance-amount {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2.6rem;
             font-weight: 800;
-            color: #ffffff;
+            font-size: 16px;
+            color: white;
+        }
+        .bank-title {
+            font-size: 18px;
+            font-weight: 800;
             letter-spacing: -0.02em;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .bank-sub {
+            font-size: 11px;
+            color: #a7f3d0;
+            margin: 0;
+        }
+        .secure-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            color: #6ee7b7;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 999px;
         }
 
-        /* Statement Entry Cards */
-        .stmt-item {
+        /* Welcome Hero */
+        .welcome-banner {
+            background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+            border-radius: 20px;
+            padding: 32px 34px;
+            color: white;
+            margin-bottom: 22px;
+            box-shadow: 0 12px 24px -6px rgba(2, 44, 34, 0.22);
+        }
+        .welcome-banner h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: white;
+        }
+        .welcome-banner p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #d1fae5;
+            opacity: 0.9;
+        }
+
+        /* Action Cards on Home */
+        .portal-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
-            padding: 14px 16px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
             margin-bottom: 10px;
+            min-height: 145px;
+        }
+        .portal-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .portal-card p {
+            margin: 0;
+            font-size: 0.86rem;
+            color: #64748b;
+            line-height: 1.45;
+        }
+
+        /* Account Card in Dashboard */
+        .account-card {
+            background: linear-gradient(135deg, #022c22 0%, #064e3b 60%, #065f46 100%);
+            border-radius: 20px;
+            padding: 26px 30px;
+            color: white;
+            box-shadow: 0 14px 28px -6px rgba(2, 44, 34, 0.25);
+            margin-bottom: 20px;
+        }
+        .acc-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #a7f3d0;
+            font-weight: 600;
+        }
+        .acc-balance {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2px;
+        }
+        .acc-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #d1fae5;
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.14);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Statement Rows */
+        .tx-row {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
-        .stmt-text {
-            font-family: 'JetBrains Mono', monospace;
+        .tx-title {
             font-size: 13px;
             font-weight: 600;
             color: #1e293b;
         }
-        .tag-sent {
-            background: #fef3c7;
-            color: #92400e;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            margin-left: 8px;
+        .tx-date {
+            font-size: 11px;
+            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 2px;
         }
-        .tag-recv {
-            background: #d1fae5;
-            color: #065f46;
-            font-size: 10px;
+        .tx-credit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
             font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            margin-left: 8px;
+            color: #059669;
         }
-        .tag-with {
-            background: #ffe4e6;
-            color: #9f1239;
-            font-size: 10px;
+        .tx-debit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
             font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            margin-left: 8px;
+            color: #dc2626;
         }
 
-        /* Style Streamlit buttons to match HTML rounded UI */
         div.stButton > button {
-            border-radius: 12px !important;
-            font-weight: 700 !important;
-            padding: 0.55rem 1.1rem !important;
-            transition: all 0.2s ease !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            padding: 0.5rem 1rem !important;
         }
         div.stButton > button[kind="primary"] {
             background-color: #047857 !important;
@@ -216,461 +209,349 @@ st.markdown("""
             background-color: #065f46 !important;
             border-color: #065f46 !important;
         }
-        /* Style Tabs */
-        button[data-baseweb="tab"] {
-            font-weight: 700 !important;
-            font-size: 13px !important;
-        }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# DATABASE (data_base.py)
+# SESSION DATABASE
 # ==========================================
-DEFAULT_ACCOUNTS = {
-    "4210112345671": {
-        "name": "Zeeshan Ali",
-        "balance": 25000,
-        "statments": ["Your first deposite is: 25000"],
-        "pin": "1234",
-        "acc_status": "active"
-    },
-    "4210198765432": {
-        "name": "Ali Khan",
-        "balance": 15000,
-        "statments": ["Your first deposite is: 15000"],
-        "pin": "4321",
-        "acc_status": "active"
-    }
-}
-
 if "accounts" not in st.session_state:
-    st.session_state.accounts = {
-        k: {
-            "name": v["name"],
-            "balance": v["balance"],
-            "statments": list(v["statments"]),
-            "pin": v["pin"],
-            "acc_status": v["acc_status"]
-        }
-        for k, v in DEFAULT_ACCOUNTS.items()
-    }
+    st.session_state.accounts = {}
 
-if "view" not in st.session_state:
-    st.session_state.view = "menu"
+if "page" not in st.session_state:
+    st.session_state.page = "home"
 
-if "current_cnic" not in st.session_state:
-    st.session_state.current_cnic = None
+if "active_cnic" not in st.session_state:
+    st.session_state.active_cnic = None
 
 if "pin_attempts" not in st.session_state:
     st.session_state.pin_attempts = {}
 
 
-def navigate_to(view_name):
-    st.session_state.view = view_name
+def go_page(name):
+    st.session_state.page = name
     st.rerun()
 
 
+def format_cnic(cnic_str):
+    if len(cnic_str) == 13 and cnic_str.isdigit():
+        return f"{cnic_str[:5]}-{cnic_str[5:12]}-{cnic_str[12]}"
+    return cnic_str
+
+
+def now_str():
+    return datetime.now().strftime("%d %b %Y, %I:%M %p")
+
+
 accounts = st.session_state.accounts
-active_user = accounts.get(st.session_state.current_cnic) if st.session_state.current_cnic else None
+current_user = accounts.get(st.session_state.active_cnic) if st.session_state.active_cnic else None
 
 # ==========================================
-# TOP NAVIGATION BAR (Matches HTML Header)
+# TOP HEADER BAR
 # ==========================================
-user_badge_html = ""
-if active_user:
-    user_badge_html = f"""
-        <div class="gbl-user-pill">
-            <span style="width:8px; height:8px; background:#34d399; border-radius:50%; display:inline-block;"></span>
-            <span>{active_user['name']} ({st.session_state.current_cnic})</span>
-        </div>
-    """
+right_badge = (
+    f'<span class="secure-badge">Signed in: {current_user["name"]}</span>'
+    if current_user else
+    '<span class="secure-badge">256-Bit Secured Portal</span>'
+)
 
 st.markdown(f"""
-    <div class="gbl-navbar">
-        <div class="gbl-logo-box">
-            <div class="gbl-icon"><i class="fa-solid fa-landmark"></i></div>
+    <div class="bank-topbar">
+        <div class="bank-brand">
+            <div class="bank-logo">GBL</div>
             <div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <span style="font-weight:800; font-size:20px; letter-spacing:-0.02em;">GBL</span>
-                    <span class="gbl-badge-gold">Limited</span>
-                </div>
-                <div style="font-size:12px; color:rgba(209, 250, 229, 0.8);">
-                    Gareeb Bank Limited &bull; Apna Bank
-                </div>
+                <p class="bank-title">Gareeb Bank Limited</p>
+                <p class="bank-sub">Digital Banking Services &bull; Pakistan</p>
             </div>
         </div>
-        {user_badge_html}
+        {right_badge}
     </div>
 """, unsafe_allow_html=True)
 
 
 # ==========================================
-# VIEW 1: MAIN WELCOME MENU (bank.py Loop)
+# 1. HOME SCREEN
 # ==========================================
-if st.session_state.view == "menu":
+if st.session_state.page == "home":
     st.markdown("""
-        <div class="gbl-hero">
-            <div class="gbl-pill-tag">
-                <i class="fa-solid fa-terminal"></i>
-                <span>bank.py &bull; 13-Digit CNIC Banking Portal</span>
-            </div>
-            <h1 style="margin:0 0 8px 0; font-size:2rem; font-weight:800; color:white;">
-                Welcome to Gareeb Bank Limited (GBL)
-            </h1>
-            <p style="margin:0; color:rgba(209, 250, 229, 0.85); font-size:0.95rem; line-height:1.5;">
-                Har aam aadmi ka bharosa. Choose your option below to open a new 13-digit CNIC account, access your dashboard, or exit the portal.
-            </p>
+        <div class="welcome-banner">
+            <h1>Welcome to Gareeb Bank Limited</h1>
+            <p>Simple, fast, and reliable digital banking. Open an account with your CNIC or sign in to manage your funds.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2 = st.columns(2, gap="medium")
 
-    with c1:
+    with col1:
         st.markdown("""
-            <div class="option-card option-card-green">
-                <span class="press-badge" style="background:#022c22; color:white;">Press (1)</span>
-                <h3 style="margin:0 0 6px 0; font-size:1.15rem; font-weight:800; color:#0f172a;">Create Account</h3>
-                <p style="margin:0; font-size:0.85rem; color:#64748b; line-height:1.45;">
-                    13-digit CNIC aur 4-digit PIN ke sath naya GBL account kholein.
-                </p>
+            <div class="portal-card">
+                <h3>Open a New Account</h3>
+                <p>Register instantly using your 13-digit CNIC number, set a 4-digit security PIN, and make your opening deposit.</p>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Open Create Account →", key="btn_opt1", type="primary", use_container_width=True):
-            navigate_to("create")
+        if st.button("Create Account", type="primary", use_container_width=True):
+            go_page("register")
 
-    with c2:
+    with col2:
         st.markdown("""
-            <div class="option-card option-card-gold">
-                <span class="press-badge" style="background:#1e293b; color:white;">Press (2)</span>
-                <h3 style="margin:0 0 6px 0; font-size:1.15rem; font-weight:800; color:#0f172a;">Login Account</h3>
-                <p style="margin:0; font-size:0.85rem; color:#64748b; line-height:1.45;">
-                    Apne 13-digit CNIC aur PIN se login karein (3 ghalat attempts par block).
-                </p>
+            <div class="portal-card">
+                <h3>Customer Sign In</h3>
+                <p>Access your account balance, transfer funds to other GBL members, view statements, or update your PIN.</p>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Open Login Account →", key="btn_opt2", use_container_width=True):
-            navigate_to("login")
-
-    with c3:
-        st.markdown("""
-            <div class="option-card option-card-red">
-                <span class="press-badge" style="background:#ffe4e6; color:#9f1239;">Press (0)</span>
-                <h3 style="margin:0 0 6px 0; font-size:1.15rem; font-weight:800; color:#0f172a;">Exit Application</h3>
-                <p style="margin:0; font-size:0.85rem; color:#64748b; line-height:1.45;">
-                    Banking session mehfooz tareeqay se band karein aur bahar niklein.
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("Exit Application →", key="btn_opt0", use_container_width=True):
-            navigate_to("exit")
-
-    # Quick CLI Simulator Bar (Matches HTML bottom bar)
-    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
-    with st.container(border=True):
-        cli_l, cli_m, cli_r = st.columns([3, 1.5, 1])
-        with cli_l:
-            st.markdown("`>>> Enter your option (1, 2, 0):`")
-        with cli_m:
-            cli_choice = st.text_input("CLI", placeholder="1, 2 or 0", max_chars=2, label_visibility="collapsed")
-        with cli_r:
-            if st.button("Run", use_container_width=True):
-                val = cli_choice.strip()
-                if val == "1":
-                    navigate_to("create")
-                elif val == "2":
-                    navigate_to("login")
-                elif val == "0":
-                    navigate_to("exit")
-                else:
-                    st.error("*********** Invalid Choice ************* (Enter 1, 2, or 0)")
+        if st.button("Sign In to Account", use_container_width=True):
+            go_page("login")
 
 
 # ==========================================
-# VIEW 2: CREATE ACCOUNT (first_interface.py)
+# 2. CREATE ACCOUNT SCREEN
 # ==========================================
-elif st.session_state.view == "create":
-    top_l, top_r = st.columns([4, 1])
-    with top_l:
-        st.markdown("### Open New GBL Account")
-        st.caption("`first_interface.py • create_account()`")
-    with top_r:
-        if st.button("← Menu", use_container_width=True):
-            navigate_to("menu")
+elif st.session_state.page == "register":
+    h_left, h_right = st.columns([4, 1])
+    with h_left:
+        st.subheader("Open New Bank Account")
+    with h_right:
+        if st.button("← Back", use_container_width=True):
+            go_page("home")
 
     with st.container(border=True):
-        with st.form("create_form"):
-            name = st.text_input("Full Name (Account Holder)", placeholder="e.g. Muhammad Ahmed").strip().capitalize()
-            cnic = st.text_input("13-Digit CNIC Number (Without Dashes)", max_chars=13, placeholder="e.g. 4210155667788").strip()
-            first_deposite = st.number_input("First Deposit (PKR)", min_value=0, step=500, value=1000)
+        with st.form("register_form"):
+            full_name = st.text_input("Account Holder Full Name", placeholder="Enter your full name").strip().title()
+            cnic_input = st.text_input("CNIC Number (13 digits without dashes)", max_chars=13, placeholder="e.g. 4210112345671").strip()
+            opening_deposit = st.number_input("Initial Deposit Amount (PKR)", min_value=0, step=500, value=1000)
 
-            p1, p2 = st.columns(2)
-            with p1:
-                pin = st.text_input("Create 4-Digit PIN", type="password", max_chars=4, placeholder="••••").strip()
-            with p2:
-                c_pin = st.text_input("Confirm 4-Digit PIN", type="password", max_chars=4, placeholder="••••").strip()
+            p_col1, p_col2 = st.columns(2)
+            with p_col1:
+                pin_input = st.text_input("Create 4-Digit PIN", type="password", max_chars=4, placeholder="••••").strip()
+            with p_col2:
+                confirm_pin = st.text_input("Confirm 4-Digit PIN", type="password", max_chars=4, placeholder="••••").strip()
 
-            submit_create = st.form_submit_button("Create GBL Account", type="primary", use_container_width=True)
+            submitted = st.form_submit_button("Open Account", type="primary", use_container_width=True)
 
-            if submit_create:
-                if not name:
-                    st.error("Please enter your full name.")
-                elif cnic in accounts:
-                    st.error("*********** CNIC is already exist *************")
-                elif not (len(cnic) == 13 and cnic.isdigit()):
-                    st.error("*********** Invalid CNIC (must be 13 digits) *************")
-                elif first_deposite <= 0:
-                    st.error("*********** Invalid Amount (must be in positive) *************")
-                elif not (len(pin) == 4 and pin.isdigit()):
-                    st.error("*********** Invalid PIN (must be in 4 digits) *************")
-                elif c_pin != pin:
-                    st.error("*********** Confirmation PIN is not matched *************")
+            if submitted:
+                if not full_name:
+                    st.error("Please enter the account holder's full name.")
+                elif cnic_input in accounts:
+                    st.error("An account with this CNIC already exists.")
+                elif not (len(cnic_input) == 13 and cnic_input.isdigit()):
+                    st.error("Invalid CNIC. Please enter exactly 13 numeric digits.")
+                elif opening_deposit <= 0:
+                    st.error("Initial deposit must be greater than Rs. 0.")
+                elif not (len(pin_input) == 4 and pin_input.isdigit()):
+                    st.error("PIN must be exactly 4 numeric digits.")
+                elif pin_input != confirm_pin:
+                    st.error("PIN and Confirm PIN do not match.")
                 else:
-                    accounts[cnic] = {
-                        "name": name,
-                        "balance": int(first_deposite),
-                        "statments": [f"Your first deposite is: {int(first_deposite)}"],
-                        "pin": pin,
-                        "acc_status": "active"
+                    amt = int(opening_deposit)
+                    accounts[cnic_input] = {
+                        "name": full_name,
+                        "balance": amt,
+                        "pin": pin_input,
+                        "acc_status": "active",
+                        "statments": [
+                            {
+                                "title": "Opening Account Deposit",
+                                "amount": amt,
+                                "type": "credit",
+                                "time": now_str()
+                            }
+                        ]
                     }
-                    st.success(f"Account Created Successfully! Holder: **{name}** | CNIC: `{cnic}` | Balance: **Rs. {int(first_deposite):,}**")
+                    st.success(f"Account opened successfully for **{full_name}** ({format_cnic(cnic_input)}). You can now sign in.")
 
 
 # ==========================================
-# VIEW 3: LOGIN ACCOUNT (first_interface.py)
+# 3. LOGIN SCREEN
 # ==========================================
-elif st.session_state.view == "login":
-    top_l, top_r = st.columns([4, 1])
-    with top_l:
-        st.markdown("### Welcome Back to GBL Bank")
-        st.caption("`first_interface.py • login_account()`")
-    with top_r:
-        if st.button("← Menu", use_container_width=True):
-            navigate_to("menu")
+elif st.session_state.page == "login":
+    h_left, h_right = st.columns([4, 1])
+    with h_left:
+        st.subheader("Sign In to Online Banking")
+    with h_right:
+        if st.button("← Back", use_container_width=True):
+            go_page("home")
 
     with st.container(border=True):
         with st.form("login_form"):
-            cnic = st.text_input("13-Digit CNIC Number", max_chars=13, placeholder="e.g. 4210112345671").strip()
-            pin = st.text_input("4-Digit Security PIN", type="password", max_chars=4, placeholder="••••").strip()
-            login_submit = st.form_submit_button("Access Dashboard", type="primary", use_container_width=True)
+            cnic_login = st.text_input("CNIC Number (13 digits)", max_chars=13, placeholder="Enter your 13-digit CNIC").strip()
+            pin_login = st.text_input("4-Digit PIN", type="password", max_chars=4, placeholder="••••").strip()
+            login_submitted = st.form_submit_button("Sign In", type="primary", use_container_width=True)
 
-            if login_submit:
-                if cnic not in accounts:
-                    st.error("*********** Account does not found *************")
-                elif accounts[cnic]["acc_status"] != "active":
-                    st.error("*********** Account is temporary block (visit our branch) *************")
-                elif pin == accounts[cnic]["pin"]:
-                    st.session_state.pin_attempts[cnic] = 0
-                    st.session_state.current_cnic = cnic
-                    navigate_to("dashboard")
+            if login_submitted:
+                if cnic_login not in accounts:
+                    st.error("Account not found. Please check your CNIC or open a new account.")
+                elif accounts[cnic_login]["acc_status"] != "active":
+                    st.error("Your account has been temporarily blocked due to multiple invalid PIN attempts. Please visit your nearest GBL branch.")
+                elif pin_login == accounts[cnic_login]["pin"]:
+                    st.session_state.pin_attempts[cnic_login] = 0
+                    st.session_state.active_cnic = cnic_login
+                    go_page("dashboard")
                 else:
-                    attempts = st.session_state.pin_attempts.get(cnic, 0) + 1
-                    st.session_state.pin_attempts[cnic] = attempts
-                    if attempts >= 3:
-                        accounts[cnic]["acc_status"] = "unactive"
-                        st.error("*********** Account is temporary block (visit our branch) *************")
+                    tries = st.session_state.pin_attempts.get(cnic_login, 0) + 1
+                    st.session_state.pin_attempts[cnic_login] = tries
+                    if tries >= 3:
+                        accounts[cnic_login]["acc_status"] = "unactive"
+                        st.error("Account temporarily blocked after 3 incorrect PIN attempts. Please visit a GBL branch.")
                     else:
-                        st.warning(f"*********** Invalid PIN (Attempts left: {3 - attempts}) *************")
-
-        st.markdown("---")
-        st.caption("INSTANT TEST ACCOUNTS (1-CLICK LOGIN):")
-        t1, t2 = st.columns(2)
-        with t1:
-            if st.button("⚡ Login: Zeeshan Ali (4210112345671)", use_container_width=True):
-                accounts["4210112345671"]["acc_status"] = "active"
-                st.session_state.pin_attempts["4210112345671"] = 0
-                st.session_state.current_cnic = "4210112345671"
-                navigate_to("dashboard")
-        with t2:
-            if st.button("⚡ Login: Ali Khan (4210198765432)", use_container_width=True):
-                accounts["4210198765432"]["acc_status"] = "active"
-                st.session_state.pin_attempts["4210198765432"] = 0
-                st.session_state.current_cnic = "4210198765432"
-                navigate_to("dashboard")
+                        st.warning(f"Incorrect PIN. {3 - tries} attempt(s) remaining before account lock.")
 
 
 # ==========================================
-# VIEW 4: LOGGED-IN BANKING DASHBOARD
+# 4. BANKING DASHBOARD
 # ==========================================
-elif st.session_state.view == "dashboard":
-    cnic = st.session_state.current_cnic
+elif st.session_state.page == "dashboard":
+    cnic = st.session_state.active_cnic
     if not cnic or cnic not in accounts:
-        navigate_to("menu")
+        go_page("home")
 
     user = accounts[cnic]
 
-    # Top Account Balance Card (Matches HTML Gradient Card)
+    # Account Summary Card
     st.markdown(f"""
-        <div class="dash-card">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:18px; margin-bottom:18px;">
-                <div>
-                    <div style="font-size:12px; color:#a7f3d0; font-family:'JetBrains Mono', monospace; margin-bottom:6px;">
-                        <span style="background:rgba(16,185,129,0.2); padding:3px 10px; border-radius:999px; border:1px solid rgba(52,211,153,0.3);">{cnic}</span>
-                        &nbsp;&bull;&nbsp; Status: <strong>{user['acc_status'].upper()}</strong>
-                    </div>
-                    <h2 style="margin:0; font-size:1.85rem; font-weight:800; color:white;">{user['name']}</h2>
-                </div>
-            </div>
-            <div>
-                <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(209,250,229,0.75); font-weight:700;">
-                    (4) Show Balance &bull; Available Current Balance
-                </div>
-                <div style="margin-top:4px;">
-                    <span style="font-size:1.25rem; font-weight:700; color:#fbbf24;">Rs.</span>
-                    <span class="balance-amount">{user['balance']:,}</span>
-                </div>
+        <div class="account-card">
+            <div class="acc-label">Available Balance</div>
+            <div class="acc-balance">Rs. {user['balance']:,}</div>
+            <div class="acc-meta">
+                <span>Account Title: <strong>{user['name']}</strong></span>
+                <span>CNIC: <strong>{format_cnic(cnic)}</strong></span>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-    _, logout_col = st.columns([4, 1.3])
-    with logout_col:
-        if st.button("Press (0): Logout", use_container_width=True):
-            st.session_state.current_cnic = None
-            navigate_to("menu")
+    _, signout_col = st.columns([4.5, 1])
+    with signout_col:
+        if st.button("Sign Out", use_container_width=True):
+            st.session_state.active_cnic = None
+            go_page("home")
 
-    # Two-Column Layout: Left = Operations, Right = Bank Statement
     left_col, right_col = st.columns([1.05, 1.15], gap="large")
 
+    # Left: Banking Operations
     with left_col:
         with st.container(border=True):
-            st.markdown("#### Banking Menu Options")
-            tab_w, tab_d, tab_t, tab_p = st.tabs([
-                "(1) Withdraw",
-                "(2) Deposit",
-                "(3) Transfer",
-                "(6) PIN"
+            tab_transfer, tab_deposit, tab_withdraw, tab_pin = st.tabs([
+                "Fund Transfer",
+                "Deposit",
+                "Withdraw",
+                "Change PIN"
             ])
 
-            # (1) Withdraw
-            with tab_w:
-                with st.form("withdraw_form"):
-                    w_amt = st.number_input("Withdraw Amount (Rs.)", min_value=0, step=500, key="w_input")
-                    if st.form_submit_button("Confirm Withdraw", type="primary", use_container_width=True):
-                        if w_amt > 0 and w_amt <= user["balance"]:
-                            user["balance"] -= int(w_amt)
-                            user["statments"].append(f"Amount Withdrawn: {int(w_amt)}")
-                            st.success("*********** Withdraw successfully *************")
-                            st.rerun()
-                        else:
-                            st.error("*********** Invalid Amount *************")
+            # Fund Transfer (Includes Recipient & Sender Name in Statement)
+            with tab_transfer:
+                bene_cnic = st.text_input("Recipient CNIC (13 digits)", max_chars=13, placeholder="Enter beneficiary CNIC").strip()
 
-            # (2) Deposit
-            with tab_d:
-                with st.form("deposit_form"):
-                    d_amt = st.number_input("Deposit Amount (Rs.)", min_value=0, step=500, key="d_input")
-                    if st.form_submit_button("Confirm Deposit", type="primary", use_container_width=True):
-                        if d_amt > 0:
-                            user["balance"] += int(d_amt)
-                            user["statments"].append(f"Amount Deposite: {int(d_amt)}")
-                            st.success("*********** Deposite successfully *************")
-                            st.rerun()
-                        else:
-                            st.error("*********** Invalid Amount *************")
-
-            # (3) Fund Transfer (Live Beneficiary Verification + Name in Statement)
-            with tab_t:
-                bene_cnic = st.text_input("Beneficiary 13-Digit CNIC", max_chars=13, placeholder="e.g. 4210198765432").strip()
-                if bene_cnic == cnic:
-                    st.error("Cannot transfer to your own CNIC")
-                elif bene_cnic in accounts:
-                    st.success(f"Verified Recipient: **{accounts[bene_cnic]['name']}**")
-                elif len(bene_cnic) > 0:
-                    st.caption("Recipient Name: Enter valid 13-digit CNIC")
-
-                t_amt = st.number_input("Transfer Amount (Rs.)", min_value=0, step=500, key="t_input")
-                if st.button("Send Funds Instantly", type="primary", use_container_width=True):
+                if bene_cnic:
                     if bene_cnic == cnic:
-                        st.error("Cannot transfer funds to your own account.")
+                        st.error("You cannot transfer funds to your own account.")
+                    elif bene_cnic in accounts:
+                        st.info(f"Recipient Name: **{accounts[bene_cnic]['name']}**")
+                    elif len(bene_cnic) == 13:
+                        st.warning("No GBL account found for this CNIC.")
+
+                transfer_amt = st.number_input("Amount (PKR)", min_value=0, step=500, key="transfer_amt")
+                if st.button("Transfer Money", type="primary", use_container_width=True):
+                    if bene_cnic == cnic:
+                        st.error("Self-transfer is not allowed.")
                     elif bene_cnic not in accounts:
-                        st.error("*********** Beneficiary does not found *************")
-                    elif t_amt > 0 and t_amt <= user["balance"]:
-                        amt_int = int(t_amt)
-                        receiver = accounts[bene_cnic]
-
-                        user["balance"] -= amt_int
-                        receiver["balance"] += amt_int
-
-                        user["statments"].append(
-                            f"Fund transfer to {receiver['name']} ({bene_cnic}): Rs. {amt_int}"
-                        )
-                        receiver["statments"].append(
-                            f"Fund received from {user['name']} ({cnic}): Rs. {amt_int}"
-                        )
-                        st.success(f"Fund Transferred to {receiver['name']}!")
-                        st.rerun()
+                        st.error("Beneficiary account not found.")
+                    elif transfer_amt <= 0 or transfer_amt > user["balance"]:
+                        st.error("Invalid amount or insufficient balance.")
                     else:
-                        st.error("*********** Invalid Amount *************")
+                        amt = int(transfer_amt)
+                        recipient = accounts[bene_cnic]
 
-            # (6) PIN Change
-            with tab_p:
-                with st.form("pin_form"):
-                    cur_pin = st.text_input("Current 4-Digit PIN", type="password", max_chars=4).strip()
+                        user["balance"] -= amt
+                        recipient["balance"] += amt
+
+                        user["statments"].append({
+                            "title": f"Fund Transfer to {recipient['name']} ({format_cnic(bene_cnic)})",
+                            "amount": amt,
+                            "type": "debit",
+                            "time": now_str()
+                        })
+                        recipient["statments"].append({
+                            "title": f"Fund Received from {user['name']} ({format_cnic(cnic)})",
+                            "amount": amt,
+                            "type": "credit",
+                            "time": now_str()
+                        })
+                        st.success(f"Rs. {amt:,} transferred to {recipient['name']}.")
+                        st.rerun()
+
+            # Deposit
+            with tab_deposit:
+                with st.form("deposit_form"):
+                    dep_amt = st.number_input("Deposit Amount (PKR)", min_value=0, step=500, key="dep_amt")
+                    if st.form_submit_button("Deposit Cash", type="primary", use_container_width=True):
+                        if dep_amt <= 0:
+                            st.error("Please enter a valid deposit amount.")
+                        else:
+                            amt = int(dep_amt)
+                            user["balance"] += amt
+                            user["statments"].append({
+                                "title": "Cash Deposit",
+                                "amount": amt,
+                                "type": "credit",
+                                "time": now_str()
+                            })
+                            st.success(f"Rs. {amt:,} deposited successfully.")
+                            st.rerun()
+
+            # Withdraw
+            with tab_withdraw:
+                with st.form("withdraw_form"):
+                    with_amt = st.number_input("Withdraw Amount (PKR)", min_value=0, step=500, key="with_amt")
+                    if st.form_submit_button("Withdraw Cash", type="primary", use_container_width=True):
+                        if with_amt <= 0 or with_amt > user["balance"]:
+                            st.error("Invalid amount or insufficient balance.")
+                        else:
+                            amt = int(with_amt)
+                            user["balance"] -= amt
+                            user["statments"].append({
+                                "title": "Cash Withdrawal",
+                                "amount": amt,
+                                "type": "debit",
+                                "time": now_str()
+                            })
+                            st.success(f"Rs. {amt:,} withdrawn successfully.")
+                            st.rerun()
+
+            # Change PIN
+            with tab_pin:
+                with st.form("change_pin_form"):
+                    old_pin = st.text_input("Current PIN", type="password", max_chars=4).strip()
                     new_pin = st.text_input("New 4-Digit PIN", type="password", max_chars=4).strip()
-                    conf_pin = st.text_input("Confirm New PIN", type="password", max_chars=4).strip()
+                    conf_new_pin = st.text_input("Confirm New PIN", type="password", max_chars=4).strip()
 
-                    if st.form_submit_button("Update Security PIN", type="primary", use_container_width=True):
-                        if cur_pin != user["pin"]:
-                            st.error("********** Invalid PIN *************")
+                    if st.form_submit_button("Update PIN", type="primary", use_container_width=True):
+                        if old_pin != user["pin"]:
+                            st.error("Current PIN is incorrect.")
                         elif not (len(new_pin) == 4 and new_pin.isdigit()):
-                            st.error("*********** Invalid PIN (must be in 4 digits) *************")
-                        elif conf_pin != new_pin:
-                            st.error("*********** Confirmation PIN is not matched *************")
+                            st.error("New PIN must be 4 numeric digits.")
+                        elif new_pin != conf_new_pin:
+                            st.error("New PIN confirmation does not match.")
                         else:
                             user["pin"] = new_pin
-                            st.success("********** PIN update successfully *************")
+                            st.success("Your security PIN has been updated.")
 
-    # Right Column: (5) Bank Statement
+    # Right: Account Statement
     with right_col:
         with st.container(border=True):
-            st.markdown(f"#### (5) Bank Statement &nbsp; `({len(user['statments'])} entries)`")
-            if not user["statments"]:
-                st.info("No statement entries recorded yet.")
+            st.markdown("#### Account Statement")
+            tx_list = user["statments"]
+            if not tx_list:
+                st.info("No transactions yet.")
             else:
-                for idx, entry in enumerate(reversed(user["statments"])):
-                    low = entry.lower()
-                    tag_html = ""
-                    if "fund transfer to" in low:
-                        tag_html = '<span class="tag-sent">Transfer Sent</span>'
-                    elif "fund received from" in low:
-                        tag_html = '<span class="tag-recv">Transfer Received</span>'
-                    elif "withdrawn" in low:
-                        tag_html = '<span class="tag-with">Withdrawn</span>'
-
-                    entry_num = len(user["statments"]) - idx
+                for tx in reversed(tx_list):
+                    is_credit = tx["type"] == "credit"
+                    sign = "+" if is_credit else "-"
+                    amt_cls = "tx-credit" if is_credit else "tx-debit"
                     st.markdown(f"""
-                        <div class="stmt-item">
+                        <div class="tx-row">
                             <div>
-                                <span class="stmt-text">{entry}</span>
-                                {tag_html}
+                                <div class="tx-title">{tx['title']}</div>
+                                <div class="tx-date">{tx['time']}</div>
                             </div>
-                            <span style="font-family:'JetBrains Mono', monospace; font-size:11px; color:#94a3b8;">#{entry_num}</span>
+                            <div class="{amt_cls}">{sign} Rs. {tx['amount']:,}</div>
                         </div>
                     """, unsafe_allow_html=True)
-
-
-# ==========================================
-# VIEW 5: EXIT SCREEN (choice == "0")
-# ==========================================
-elif st.session_state.view == "exit":
-    st.markdown("""
-        <div style="background:white; border:1px solid #e2e8f0; border-radius:24px; padding:42px 28px; text-align:center; box-shadow:0 10px 25px -5px rgba(0,0,0,0.06);">
-            <div style="font-family:'JetBrains Mono', monospace; color:#94a3b8; font-size:12px; margin-bottom:8px;">
-                ==============================
-            </div>
-            <h2 style="margin:0; font-size:1.85rem; font-weight:800; color:#0f172a;">
-                Thanks for using GBL Bank
-            </h2>
-            <div style="font-family:'JetBrains Mono', monospace; color:#94a3b8; font-size:12px; margin-top:8px; margin-bottom:20px;">
-                ==============================
-            </div>
-            <p style="color:#475569; font-size:0.95rem; max-width:440px; margin:0 auto 24px auto;">
-                Apka session mehfooz tareeqay se khatam ho chuka hai. Gareeb Bank Limited (GBL) ka intikhab karne ka shukriya!
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
-    _, btn_c, _ = st.columns([1.2, 1.5, 1.2])
-    with btn_c:
-        if st.button("↻ Restart GBL Application", type="primary", use_container_width=True):
-            navigate_to("menu")
